@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Random;
 
 public class PersonController {	
-	
+	//nana
 	public void becomeSick(Person person){
 		person.setSick(true);
 	}
