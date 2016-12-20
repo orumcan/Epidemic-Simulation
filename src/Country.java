@@ -1,16 +1,18 @@
 import java.util.ArrayList;
 
 public class Country {
-	private Country[] neighbors;	
+	private ArrayList<Country> neighbors;	
 	private ArrayList<Person> citizens;
 	private boolean isThereSickPerson;
+	private String name;
 	
-	public Country(){
-		neighbors = new Country[4];
+	public Country(String name){
+		neighbors = new ArrayList<Country>();
 		citizens = new ArrayList<Person>();
-		
+		this.name = name;
 	}
-	public Country[] getNeighbors() {
+	
+	public ArrayList<Country> getNeighbors() {
 		return neighbors;
 	}		
 	
@@ -32,11 +34,11 @@ public class Country {
 		return isThereSickPerson;
 	}	
 	
-	public void setNeighborList(Country[] neighbors){
-		this.neighbors = neighbors;
+	public void addNeighbor(Country neighbor){
+		neighbors.add(neighbor);
 	}
 	
-	public String name(){
-		return "1";
-	}
+	public String getName(){
+		return name;
+	}	
 }
