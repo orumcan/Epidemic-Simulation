@@ -9,12 +9,12 @@ public class Person {
 	
 	private Country currentCountry;
 	
-	public Person (Country country){
+	public Person (Country currentCountry){
 		isSick = false;
 		isInfected = false;
 		isAlive = true;
 		infectionDay = 0;
-		currentCountry = country;
+		this.currentCountry = currentCountry;
 		dayPassed = 0;
 	}
 	public boolean isSick() {

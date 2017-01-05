@@ -13,13 +13,14 @@ public class PersonController {
 	}
 	
 	public void becomeInfected(Person person){
-		person.setInfected(true);		
+		person.setInfected(true);
+		person.getCurrentCountry().informInfected(person);
 	}
 	
 	public void becomeHealthy(Person person){
 		person.setInfected(false);
 	}
-	
+		
 	public void move(Person person){
 		
 	}

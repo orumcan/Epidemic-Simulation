@@ -3,43 +3,47 @@ import java.util.Scanner;
 
 
 public class GameManager {
-
-	public static void main(String[] args) {		
-		WorldMap worldMap = new WorldMap();	
-		PersonController personController = new PersonController();
-		Scanner reader = new Scanner(System.in);
-		int dayCounter;
-		
+	 WorldMap worldMap;
+	 PersonController personController;
+	 Scanner reader;
+	 int dayCounter;
+	 Random random;
+	 WorldMapView view;
+	
+	public GameManager(){
+		initializeVariables();
 		getConstantsFromUser(reader);
-		
-		worldMap.createWorldMap();
+		worldMap.createWorldMap();		
+		randomlyGiveInfection(worldMap.getPopulation());
+		view.initializeView(worldMap.getCountries());
+	}
+	
+	public static void main(String args[]){
+		new GameManager();
+	}
 
-		//randomly give sickness
+	private  void initializeVariables() {
+		worldMap = WorldMap.Instance();	
+		personController = new PersonController();
+		reader = new Scanner(System.in);
+		random = new Random();
+		view = new WorldMapView();
+	}
+
+	public void randomlyGiveInfection(Person [] population) {
+		int calculatedRate = (int) population.length * Constants.initialSickPeopleRate / 100;
 		int counter = 0;
-		
-		Person [] population = worldMap.getPopulation();
-		while (counter < Constants.initialSickPeopleSize) {
-			Random random = new Random();
-		    boolean isSick = random.nextBoolean();
+		while (counter < calculatedRate) {			
+		    boolean isInfected = random.nextBoolean();
 		    int randomPersonID = random.nextInt(Constants.populationSize);
-		    if(isSick && population[randomPersonID].isSick() == false){
-		    	personController.becomeSick(population[randomPersonID]);
+		    if(isInfected && population[randomPersonID].isInfected() == false){
+		    	personController.becomeInfected(population[randomPersonID]);		    		    
 		    	counter++;
 		    }
 		}
-		//test
-		for (int i = 0; i < population.length; i++) {
-			System.out.println(i +"th Person Status: " + population[i].isSick() +
-					", CurrentCountry : "+population[i].getCurrentCountry().getName());
-		}		
-		
-		//begin to simulation
-		//simulation by clicking next button(?)
-		
-		
 	}
 
-	private static void getConstantsFromUser(Scanner reader) {
+	private void getConstantsFromUser(Scanner reader) {
 		System.out.println("Enter the world size: ");
 		Constants.worldSize = reader.nextInt();
 		
@@ -47,6 +51,6 @@ public class GameManager {
 		Constants.populationSize = reader.nextInt();
 		
 		System.out.println("Enter the initial sick population size: ");
-		Constants.initialSickPeopleSize = reader.nextInt();		
+		Constants.initialSickPeopleRate = reader.nextInt();		
 	}
 }

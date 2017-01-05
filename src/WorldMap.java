@@ -6,6 +6,18 @@ public class WorldMap {
 	private int worldSize;
 	private Person[] population;
 	
+	private static WorldMap instance;
+	
+	private WorldMap(){
+		
+	}
+	
+	public static WorldMap Instance(){
+		if(instance == null){
+			instance = new WorldMap();			
+		}
+		return instance;
+	}
 	public void createWorldMap(){
 		initializeVariables();
 		initializeCountries();		
@@ -22,7 +34,8 @@ public class WorldMap {
 	private void initializeCountries() {
 		for (int i = 0; i < countryList.length; i++) {
 			for (int j = 0; j < countryList[i].length; j++) {				
-				countryList[i][j] = new Country(i + "," + j);				
+				countryList[i][j] = new Country();	
+				countryList[i][j].setCountryName(i+","+j);
 			}
 		}
 	}
@@ -39,15 +52,43 @@ public class WorldMap {
 	
 	private void initializeNeighbors(){
 		for (int i = 0; i < countryList.length; i++) {
-			for (int j = 0; j < countryList.length; j++) {	
+			for (int j = 0; j < countryList[i].length; j++) {	
+				
+				//North
 				if(i > 0)
-					countryList[i][j].addNeighbor(countryList[i - 1][j]); //north
-				if(j > 0)
-					countryList[i][j].addNeighbor(countryList[i][j - 1]); //west
+					countryList[i][j].addNeighbor(countryList[i - 1][j]); //regular N
+				else if(i == 0)
+					countryList[i][j].addNeighbor(countryList[worldSize - 1][j]); //vertical first is connected to last
+				
+				//South
 				if(i < worldSize - 1) 
-					countryList[i][j].addNeighbor(countryList[i + 1][j]); // south
+					countryList[i][j].addNeighbor(countryList[i + 1][j]); //regular S
+				else if(i == worldSize - 1)
+					countryList[i][j].addNeighbor(countryList[0][j]); //vertical last is connected to first
+				
+				//West
+				if(j > 0)
+					countryList[i][j].addNeighbor(countryList[i][j - 1]); //regular W
+				else if(j == 0)
+					countryList[i][j].addNeighbor(countryList[i][worldSize - 1]); //horizontal first is connected to last
+				
+				//East
 				if(j < worldSize - 1)
-					countryList[i][j].addNeighbor(countryList[i][j + 1]); //east				
+					countryList[i][j].addNeighbor(countryList[i][j + 1]); //regular E		
+				else if(j == worldSize - 1)
+					countryList[i][j].addNeighbor(countryList[i][0]); //horizontal last is connected to first		
+				
+				/*
+					if(i > 0)
+						countryList[i][j].addNeighbor(countryList[i - 1][j]); //north
+					if(j > 0)
+						countryList[i][j].addNeighbor(countryList[i][j - 1]); //west
+					if(i < worldSize - 1) 
+						countryList[i][j].addNeighbor(countryList[i + 1][j]); // south
+					if(j < worldSize - 1)
+						countryList[i][j].addNeighbor(countryList[i][j + 1]); //east	
+				*/
+				
 			}			
 		}
 	}

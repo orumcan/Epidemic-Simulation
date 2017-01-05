@@ -1,5 +1,5 @@
 public class Constants {
 	public static int worldSize;
 	public static int populationSize;
-	public static int initialSickPeopleSize;
+	public static int initialSickPeopleRate;
 }

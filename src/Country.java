@@ -4,12 +4,13 @@ public class Country {
 	private ArrayList<Country> neighbors;	
 	private ArrayList<Person> citizens;
 	private boolean isThereSickPerson;
-	private String name;
+	private String countryName;
+	private ArrayList<Person> infectedCitizens;
 	
-	public Country(String name){
+	public Country(){
 		neighbors = new ArrayList<Country>();
-		citizens = new ArrayList<Person>();
-		this.name = name;
+		citizens = new ArrayList<Person>();	
+		infectedCitizens = new ArrayList<Person>();	
 	}
 	
 	public ArrayList<Country> getNeighbors() {
@@ -34,11 +35,24 @@ public class Country {
 		return isThereSickPerson;
 	}	
 	
-	public void addNeighbor(Country neighbor){
-		neighbors.add(neighbor);
+	public void informInfected(Person person){
+		infectedCitizens.add(person);
 	}
 	
-	public String getName(){
-		return name;
+	public ArrayList<Person> getInfectedCitizens(){
+		return infectedCitizens;
+	}
+	
+	public void addNeighbor(Country neighbor){
+		neighbors.add(neighbor);
 	}	
+	
+	
+	public String getCountryName(){
+		return countryName;
+	}
+	
+	public void setCountryName(String countryName){
+		this.countryName = countryName;
+	}
 }
