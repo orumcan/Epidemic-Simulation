@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,13 +11,14 @@ public class GameManager {
 	 int dayCounter;
 	 Random random;
 	 WorldMapView view;
+	private ActionListener actionListener;
 	
 	public GameManager(){
 		initializeVariables();
 		getConstantsFromUser(reader);
 		worldMap.createWorldMap();		
 		randomlyGiveInfection(worldMap.getPopulation());
-		view.initializeView(worldMap.getCountries());
+		view.initializeView(worldMap.getCountries(), actionListener);
 	}
 	
 	public static void main(String args[]){
@@ -23,11 +26,21 @@ public class GameManager {
 	}
 
 	private  void initializeVariables() {
+		dayCounter = 0;
 		worldMap = WorldMap.Instance();	
 		personController = new PersonController();
 		reader = new Scanner(System.in);
 		random = new Random();
 		view = new WorldMapView();
+		
+		actionListener = new ActionListener(				) {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				simulate();
+				
+			}
+		};		 
 	}
 
 	public void randomlyGiveInfection(Person [] population) {
@@ -53,4 +66,11 @@ public class GameManager {
 		System.out.println("Enter the initial sick population size: ");
 		Constants.initialSickPeopleRate = reader.nextInt();		
 	}
+	
+	private void simulate(){
+		EventFiringSource.Instance().startDayEvent();
+		System.out.println(dayCounter);
+		dayCounter++;
+	}
+	
 }

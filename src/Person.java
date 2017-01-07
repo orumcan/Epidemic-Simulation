@@ -1,5 +1,5 @@
 
-public class Person {
+public class Person implements DayCountInfertace {
 	private boolean isSick;
 	private boolean isInfected;
 	private boolean isAlive;
@@ -15,6 +15,7 @@ public class Person {
 		isAlive = true;
 		infectionDay = 0;
 		this.currentCountry = currentCountry;
+		EventFiringSource.Instance().addDayEventListener(this);
 		dayPassed = 0;
 	}
 	public boolean isSick() {
@@ -63,6 +64,16 @@ public class Person {
 
 	public void setCurrentCountry(Country currentCountry) {
 		this.currentCountry = currentCountry;
+	}
+	@Override
+	public void dayPassed() {
+		System.out.println("Day passed!");
+		
+	}
+	@Override
+	public void manageInfectionStatus() {
+		System.out.println("Infection managed!");
+		
 	}
 	
 }

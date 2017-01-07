@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,13 +15,17 @@ public class WorldMapView {
 	 public JFrame frame;
 	 public static final int boxSize = 50;
 	 JPanel contentPane;
+	 JButton nextButton;
 	 
-	 public void initializeView(Country[][] countries) {
+	 public void initializeView(Country[][] countries, ActionListener actionListener) {
 		 
 		 frame = new JFrame("Epidemic Simulator");
 		 frame.setSize(countries.length * boxSize, countries.length * boxSize);
 		 contentPane = new JPanel();
 		 contentPane.setLayout(new GridLayout(countries.length, countries[0].length));
+		 
+		 nextButton = new JButton();		 		 
+		 nextButton.addActionListener(actionListener);
 
 		 for (int i = 0; i < countries.length; i++) {
 			for (int j = 0; j < countries.length; j++) {
@@ -36,8 +42,8 @@ public class WorldMapView {
 				contentPane.add(label);
 			}
 		}
-		 
-		 frame.add(contentPane);
+		 contentPane.add(nextButton);
+		 frame.add(contentPane);		 
 		 frame.pack();
 		 frame.setVisible(true);
 		 frame.addWindowListener(new WindowAdapter() {
