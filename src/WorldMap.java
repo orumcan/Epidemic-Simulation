@@ -46,6 +46,7 @@ public class WorldMap {
 			int row = random.nextInt(worldSize);
 			int col = random.nextInt(worldSize);
 			population[i] = new Person(countryList[row][col]);
+			population[i].setID(i);
 			countryList[row][col].addCitizen(population[i]);
 		}
 	}
@@ -76,18 +77,7 @@ public class WorldMap {
 				if(j < worldSize - 1)
 					countryList[i][j].addNeighbor(countryList[i][j + 1]); //regular E		
 				else if(j == worldSize - 1)
-					countryList[i][j].addNeighbor(countryList[i][0]); //horizontal last is connected to first		
-				
-				/*
-					if(i > 0)
-						countryList[i][j].addNeighbor(countryList[i - 1][j]); //north
-					if(j > 0)
-						countryList[i][j].addNeighbor(countryList[i][j - 1]); //west
-					if(i < worldSize - 1) 
-						countryList[i][j].addNeighbor(countryList[i + 1][j]); // south
-					if(j < worldSize - 1)
-						countryList[i][j].addNeighbor(countryList[i][j + 1]); //east	
-				*/
+					countryList[i][j].addNeighbor(countryList[i][0]); //horizontal last is connected to first				
 				
 			}			
 		}
@@ -99,9 +89,5 @@ public class WorldMap {
 	
 	public Person[] getPopulation(){
 		return population;
-	}
-	
-	 public boolean getIsThereSickPerson(Country country){
-		 return country.getIsThereSickPerson();
-	 }
+	}	
 }

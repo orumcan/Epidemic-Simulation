@@ -1,23 +1,35 @@
 
-public class Person implements DayCountInfertace {
+public class Person  {
+	
 	private boolean isSick;
 	private boolean isInfected;
 	private boolean isAlive;
+	private boolean isImmune;
 	
 	private int infectionDay;
-	private int dayPassed;
+	private int moveDay;
 	
 	private Country currentCountry;
+	private int id;
 	
 	public Person (Country currentCountry){
 		isSick = false;
 		isInfected = false;
 		isAlive = true;
+		isImmune = false; //for super person or vaccinated
 		infectionDay = 0;
 		this.currentCountry = currentCountry;
 		EventFiringSource.Instance().addDayEventListener(this);
-		dayPassed = 0;
+		moveDay = 0;
 	}
+	
+	public void incrementDay() {
+		moveDay--;
+		if(isInfected){
+			infectionDay++;
+		}		
+	}
+	
 	public boolean isSick() {
 		return isSick;
 	}
@@ -50,12 +62,12 @@ public class Person implements DayCountInfertace {
 		this.infectionDay = infectionDay;
 	}
 
-	public int getDayPassed() {
-		return dayPassed;
+	public int getMoveDay() {
+		return moveDay;
 	}
 
-	public void setDayPassed(int dayPassed) {
-		this.dayPassed = dayPassed;
+	public void setMoveDay(int moveDay) {
+		this.moveDay = moveDay;
 	}
 
 	public Country getCurrentCountry() {
@@ -65,15 +77,18 @@ public class Person implements DayCountInfertace {
 	public void setCurrentCountry(Country currentCountry) {
 		this.currentCountry = currentCountry;
 	}
-	@Override
-	public void dayPassed() {
-		System.out.println("Day passed!");
-		
+	public boolean isImmune() {
+		return isImmune;
 	}
-	@Override
-	public void manageInfectionStatus() {
-		System.out.println("Infection managed!");
-		
+	public void setImmune(boolean isImmune) {
+		this.isImmune = isImmune;
+	}
+
+	public void setID(int id) {
+		this.id = id;		
 	}
 	
+	public int getID(){
+		return id;
+	}	
 }

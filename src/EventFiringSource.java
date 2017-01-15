@@ -25,7 +25,10 @@ private static EventFiringSource instance;
 	
 	private void fireDayEvent(){
 		for (Person listener : personListeners ) {
-			listener.dayPassed();
+			PersonController.Instance().dayPassed(listener);
+			PersonController.Instance().move(listener);
+			PersonController.Instance().manageInfectionStatus(listener);
+			
 		}
 	}
 	

@@ -6,11 +6,9 @@ import java.util.Scanner;
 
 public class GameManager {
 	 WorldMap worldMap;
-	 PersonController personController;
 	 Scanner reader;
-	 int dayCounter;
+	 public static int dayCounter;
 	 Random random;
-	 WorldMapView view;
 	private ActionListener actionListener;
 	
 	public GameManager(){
@@ -18,7 +16,7 @@ public class GameManager {
 		getConstantsFromUser(reader);
 		worldMap.createWorldMap();		
 		randomlyGiveInfection(worldMap.getPopulation());
-		view.initializeView(worldMap.getCountries(), actionListener);
+		WorldMapView.Instance().initializeView(worldMap.getCountries(), actionListener);
 	}
 	
 	public static void main(String args[]){
@@ -26,17 +24,16 @@ public class GameManager {
 	}
 
 	private  void initializeVariables() {
-		dayCounter = 0;
-		worldMap = WorldMap.Instance();	
-		personController = new PersonController();
+		dayCounter = 1;
+		worldMap = WorldMap.Instance();			
 		reader = new Scanner(System.in);
-		random = new Random();
-		view = new WorldMapView();
+		random = new Random();		
 		
-		actionListener = new ActionListener(				) {
+		actionListener = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				simulate();
 				
 			}
@@ -46,11 +43,13 @@ public class GameManager {
 	public void randomlyGiveInfection(Person [] population) {
 		int calculatedRate = (int) population.length * Constants.initialSickPeopleRate / 100;
 		int counter = 0;
+		
+		
 		while (counter < calculatedRate) {			
 		    boolean isInfected = random.nextBoolean();
 		    int randomPersonID = random.nextInt(Constants.populationSize);
 		    if(isInfected && population[randomPersonID].isInfected() == false){
-		    	personController.becomeInfected(population[randomPersonID]);		    		    
+		    	PersonController.Instance().becomeInfected(population[randomPersonID]);		    		    
 		    	counter++;
 		    }
 		}
@@ -63,13 +62,17 @@ public class GameManager {
 		System.out.println("Enter the population size: ");
 		Constants.populationSize = reader.nextInt();
 		
-		System.out.println("Enter the initial sick population size: ");
-		Constants.initialSickPeopleRate = reader.nextInt();		
+		System.out.println("Enter the initial sick population size percent: ");
+		Constants.initialSickPeopleRate = reader.nextInt();
+		
+		System.out.println("Enter the airway option probability: ");
+		Constants.airwayProbability = reader.nextInt();
 	}
 	
 	private void simulate(){
-		EventFiringSource.Instance().startDayEvent();
-		System.out.println(dayCounter);
+		System.out.println(dayCounter);		
+		EventFiringSource.Instance().startDayEvent();				
+		WorldMapView.Instance().updateGUI();
 		dayCounter++;
 	}
 	
