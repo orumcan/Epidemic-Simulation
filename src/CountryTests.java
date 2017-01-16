@@ -63,7 +63,7 @@ public class CountryTests {
 				}
 			}			
 		}
-		assertEquals(Constants.initialSickPeopleRate, counter);
+		assertEquals(Constants.initialInfectedPeopleRate, counter);
 	}
 	
 }

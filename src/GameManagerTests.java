@@ -16,13 +16,13 @@ public class GameManagerTests {
 		for (int i = 0; i < testPopulation; i++) {
 			 population[i] = new Person(country);			 
 		} 						
-		manager.randomlyGiveInfection(population);
+		manager.giveRandomInitialStatus(population);
 		for (int i = 0; i < testPopulation; i++) {
 			if(population[i].isSick() == true){
 				sickCounter++;
 			}
 		}
-		int calculatedRate = (int)Constants.initialSickPeopleRate * testPopulation / 100;
+		int calculatedRate = (int)Constants.initialInfectedPeopleRate * testPopulation / 100;
 		assertEquals(calculatedRate, sickCounter);
 	}
 

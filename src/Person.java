@@ -1,59 +1,50 @@
 
 public class Person  {
 	
-	private boolean isSick;
-	private boolean isInfected;
-	private boolean isAlive;
-	private boolean isImmune;
-	
 	private int infectionDay;
 	private int moveDay;
-	
-	private Country currentCountry;
 	private int id;
 	
+	private Country currentCountry;	
+	private Status status;
+	
+	private boolean isDoctor;
+	
 	public Person (Country currentCountry){
-		isSick = false;
-		isInfected = false;
-		isAlive = true;
-		isImmune = false; //for super person or vaccinated
-		infectionDay = 0;
+
+		infectionDay 		= 0;
+		moveDay 			= 0;
 		this.currentCountry = currentCountry;
-		EventFiringSource.Instance().addDayEventListener(this);
-		moveDay = 0;
+		status 				= Status.Healthy;
+		EventFiringSource.Instance().addDayEventListener(this);		
+		isDoctor = false;
 	}
 	
 	public void incrementDay() {
 		moveDay--;
-		if(isInfected){
+		if(status == Status.Infected || status == Status.Sick){
 			infectionDay++;
 		}		
 	}
+		
+	public Status getStatus(){
+		return status;
+	}
 	
-	public boolean isSick() {
-		return isSick;
+	public void setDoctor(boolean isDoctor){
+		this.isDoctor = isDoctor;
+		if(isDoctor)
+			currentCountry.addDoctor(this);
 	}
+	
+	public boolean getDoctor(){
+		return isDoctor;
+	}	
 
-	public void setSick(boolean isSick) {
-		this.isSick = isSick;
+	public void setStatus(Status status){
+		this.status = status;
 	}
-
-	public boolean isInfected() {
-		return isInfected;
-	}
-
-	public void setInfected(boolean isInfected) {
-		this.isInfected = isInfected;
-	}
-
-	public boolean isAlive() {
-		return isAlive;
-	}
-
-	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
-	}
-
+	
 	public int getInfectionDay() {
 		return infectionDay;
 	}
@@ -76,12 +67,6 @@ public class Person  {
 
 	public void setCurrentCountry(Country currentCountry) {
 		this.currentCountry = currentCountry;
-	}
-	public boolean isImmune() {
-		return isImmune;
-	}
-	public void setImmune(boolean isImmune) {
-		this.isImmune = isImmune;
 	}
 
 	public void setID(int id) {

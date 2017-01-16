@@ -25,14 +25,18 @@ private static EventFiringSource instance;
 	
 	private void fireDayEvent(){
 		for (Person listener : personListeners ) {
-			PersonController.Instance().dayPassed(listener);
-			PersonController.Instance().move(listener);
-			PersonController.Instance().manageInfectionStatus(listener);
-			
+			if(listener.getStatus() != Status.Dead){
+				PersonController.Instance().dayPassed(listener);
+				PersonController.Instance().vaccinate(listener);
+				PersonController.Instance().move(listener);				
+				PersonController.Instance().manageInfectionStatus(listener);				
+			}						
 		}
 	}
 	
 	public void startDayEvent(){
 		fireDayEvent();
+		if(Constants.showConsole != 0)
+			WorldMapView.Instance().updateConsole();
 	}
 }
